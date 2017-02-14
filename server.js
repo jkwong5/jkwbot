@@ -5,7 +5,7 @@ var mongoose = require("mongoose");
 
 var app = express();
 var db = mongoose.connect(process.env.MONGODB_URI);
-var Movie = require("./models/movie");
+var Movie = require("/models/movie");
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
