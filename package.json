@@ -1,7 +1,7 @@
 {
   "name": "jkwbot",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Bot",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,9 +10,9 @@
   "author": "Jonathan Wong",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.16.0",
+    "body-parser": "^1.16.1",
     "express": "^4.14.1",
-    "mongoose": "^4.8.1",
+    "mongoose": "^4.8.2",
     "request": "^2.79.0"
   }
 }
