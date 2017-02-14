@@ -5,7 +5,7 @@ var mongoose = require("mongoose");
 
 var app = express();
 var db = mongoose.connect(process.env.MONGODB_URI);
-var Movie = require("/models/movie");
+var Movie = require("/models/movie.js");
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -99,17 +99,17 @@ function processMessage(event) {
       // keywords and send back the corresponding movie detail.
       // Otherwise, search for new movie.
       switch (formattedMsg) {
-        case "plot":
-        case "date":
-        case "runtime":
-        case "director":
-        case "cast":
-        case "rating":
-          getMovieDetail(senderId, formattedMsg);
-          break;
+      case "plot":
+      case "date":
+      case "runtime":
+      case "director":
+      case "cast":
+      case "rating":
+        getMovieDetail(senderId, formattedMsg);
+        break;
 
-        default:
-          findMovie(senderId, formattedMsg);
+      default:
+        findMovie(senderId, formattedMsg);
       }
     } else if (message.attachments) {
       sendMessage(senderId, {text: "Sorry, I don't understand your request."});
@@ -146,7 +146,7 @@ function getMovieDetail(userId, field) {
 
 function findMovie(userId, movieTitle) {
   request("http://www.omdbapi.com/?type=movie&amp;t=" + movieTitle, function (error, response, body) {
-    if (!error &amp;&amp; response.statusCode === 200) {
+    if (!error && response.statusCode === 200) {
       var movieObj = JSON.parse(body);
       if (movieObj.Response === "True") {
         var query = {user_id: userId};
