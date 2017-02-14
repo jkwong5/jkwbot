@@ -4,7 +4,7 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 
 var db = mongoose.connect(process.env.MONGODB_URI);
-var Movie = require("./models/movie");
+var Movie = require("./models/movie");orig
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -72,7 +72,7 @@ function processPostback(event) {
                 name = bodyObj.first_name;
                 greeting = "Hi " + name + ". ";
             }
-            var message = greeting + "My name is SP Movie Bot. I can tell you various details regarding movies. What movie would you like to know about?";
+            var message = greeting + "My name is JKW Bot. I can tell you various details regarding movies. What movie would you like to know about?";
             sendMessage(senderId, {text: message});
         });
     } else if (payload === "Correct") {
