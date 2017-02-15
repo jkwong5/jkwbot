@@ -2,17 +2,27 @@
   "name": "jkwbot",
   "version": "1.0.0",
   "description": "A Bot",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "author": "Jonathan Wong",
   "license": "ISC",
   "dependencies": {
+    "apiai": "^3.0.3",
+    "async": "^2.0.0",
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
     "mongoose": "^4.8.2",
+    "html-entities": "^1.2.0",
+    "json-bigint": "^0.2.0",
+    "node-uuid": "^1.4.7",
     "request": "^2.79.0"
+  },
+  "devDependencies": {
+  "rewire": "^2.5.2",
+  "should": "^11.2.0",
+  "supertest": "^3.0.0"
   }
 }
