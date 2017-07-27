@@ -465,8 +465,8 @@ app.post('/ai', (req, res) => {
       const data = JSONbig.parse(req.body);
 
 
-  if (data.entry.result.action === 'weather') {
-    let city = data.entry.result.parameters['geo-city'];
+  if (data.result.action === 'weather') {
+    let city = data.result.parameters['geo-city'];
     let restUrl = 'http://api.openweathermap.org/data/2.5/weather?APPID='+WEATHER_API_KEY+'&q='+city;
 
     request.get(restUrl, (err, response, body) => {
