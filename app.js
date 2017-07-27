@@ -468,17 +468,23 @@ app.post('/ai', (req, res) => {
     request.get(restUrl, (err, response, body) => {
       if (!err && response.statusCode == 200) {
         let json = JSON.parse(body);
-        let msg = json.weather[0].description + ' and the temperature is ' + json.main.temp + ' ℉';
+        let tempF = ~~(json.main.temp * 9/5 - 459.67);
+        let tempC = ~~(json.main.temp - 273.15);
+        let msg = 'The current condition in ' + json.name + ' is ' + json.weather[0].description + ' and the temperature is ' + tempF + ' ℉ (' +tempC+ ' ℃).'
         return res.json({
           speech: msg,
           displayText: msg,
           source: 'weather'});
       } else {
-        return res.status(400).json({
-          status: {
-            code: 400,
-            errorType: 'I failed to look up the city name.'}});
-      }})
+        let errorMessage = 'I failed to look up the city name.';
+       return res.status(400).json({
+         status: {
+           code: 400,
+           errorType: errorMessage
+         }
+       });
+      }
+    })
   }
 });
 
