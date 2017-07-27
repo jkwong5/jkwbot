@@ -333,7 +333,7 @@ class FacebookBot {
                         break;
                     }
                     currReverse--;
-                } while (currReverse > prev)
+                } while (currReverse > prev);
             }
         }
         output.push(s.substr(prev));
@@ -421,6 +421,53 @@ class FacebookBot {
     }
 
 }
+
+let facebookBot = new FacebookBot();
+
+app.use(bodyParser.text({type: 'application/json'}));
+
+app.get('/webhook/', (req, res) => {
+    if (req.query['hub.verify_token'] == FB_VERIFY_TOKEN) {
+        res.send(req.query['hub.challenge']);
+
+        setTimeout(() => {
+            facebookBot.doSubscribeRequest();
+        }, 3000);
+    } else {
+        res.send('Error, wrong validation token');
+    }
+});
+
+app.post('/webhook/', (req, res) => {
+    try {
+        const data = JSONbig.parse(req.body);
+
+        if (data.entry) {
+            let entries = data.entry;
+            entries.forEach((entry) => {
+                let messaging_events = entry.messaging;
+                if (messaging_events) {
+                    messaging_events.forEach((event) => {
+                        if (event.message && !event.message.is_echo ||
+                            event.postback && event.postback.payload) {
+                            facebookBot.processEvent(event);
+                        }
+                    });
+                }
+            });
+        }
+
+        return res.status(200).json({
+            status: "ok"
+        });
+    } catch (err) {
+        return res.status(400).json({
+            status: "error",
+            error: err
+        });
+    }
+
+});
 
 /* For Facebook Validation */
 app.get('/webhook', (req, res) => {
