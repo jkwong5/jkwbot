@@ -13,11 +13,6 @@ const APIAI_ACCESS_TOKEN = process.env.APIAI_ACCESS_TOKEN;
 const APIAI_LANG = process.env.APIAI_LANG || 'en';
 const FB_VERIFY_TOKEN = process.env.FB_VERIFY_TOKEN;
 const FB_PAGE_ACCESS_TOKEN = process.env.FB_PAGE_ACCESS_TOKEN;
-const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
-
-const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 class FacebookBot {
     constructor() {
@@ -461,29 +456,7 @@ app.post('/webhook/', (req, res) => {
             error: err
         });
     }
-});
 
-// Weather API
-app.post('/ai', (req, res) => {
-  if (req.body.result.action === 'weather') {
-    let city = req.body.result.parameters['geo-city'];
-    let restUrl = 'http://api.openweathermap.org/data/2.5/weather?APPID='+WEATHER_API_KEY+'&q='+city;
-
-    request.get(restUrl, (err, response, body) => {
-      if (!err && response.statusCode == 200) {
-        let json = JSON.parse(body);
-        let msg = json.weather[0].description + ' and the temperature is ' + json.main.temp + ' ℉';
-        return res.json({
-          speech: msg,
-          displayText: msg,
-          source: 'weather'});
-      } else {
-        return res.status(400).json({
-          status: {
-            code: 400,
-            errorType: 'I failed to look up the city name.'}});
-      }});
-    }
 });
 
 app.listen(REST_PORT, () => {
