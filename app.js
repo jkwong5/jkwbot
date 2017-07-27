@@ -1,4 +1,6 @@
-'use strict';
+/*jshint esversion: 6 */
+(function () {
+   'use strict';
 
 const apiai = require('apiai');
 const express = require('express');
@@ -51,6 +53,7 @@ class FacebookBot {
             });
         }
     }
+
 
     doRichContentResponse(sender, messages) {
         let facebookMessages = []; // array with result messages
@@ -321,7 +324,7 @@ class FacebookBot {
                         break;
                     }
                     currReverse--;
-                } while (currReverse > prev)
+                } while (currReverse > prev);
             }
         }
         output.push(s.substr(prev));
@@ -474,27 +477,21 @@ app.post('/ai', (req, res) => {
         let json = JSON.parse(body);
         let tempF = ~~(json.main.temp * 9/5 - 459.67);
         let tempC = ~~(json.main.temp - 273.15);
-        let msg = 'The current condition in ' + json.name + ' is ' + json.weather[0].description + ' and the temperature is ' + tempF + ' ℉ (' +tempC+ ' ℃).'
+        let msg = 'The current condition in ' + json.name + ' is ' + json.weather[0].description + ' and the temperature is ' + tempF + ' ℉ (' +tempC+ ' ℃).';
         return res.json({
           speech: msg,
           displayText: msg,
           source: 'weather'});
-      } else {
-        let errorMessage = 'I failed to look up the city name.';
-       return res.status(400).json({
-         status: {
-           code: 400,
-           errorType: errorMessage
+
          }
        });
       }
-    })
-  }
 } catch (err) {
     return res.status(400).json({
         status: "error",
         error: err
     });
+  }
 });
 
 app.listen(REST_PORT, () => {
@@ -502,3 +499,4 @@ app.listen(REST_PORT, () => {
 });
 
 facebookBot.doSubscribeRequest();
+}());
