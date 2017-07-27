@@ -461,8 +461,12 @@ app.post('/webhook/', (req, res) => {
 });
 
 app.post('/ai', (req, res) => {
-  if (req.body.result.action === 'weather') {
-    let city = req.body.result.parameters['geo-city'];
+  try {
+      const data = JSONbig.parse(req.body);
+
+
+  if (data.entry.result.action === 'weather') {
+    let city = data.entry.result.parameters['geo-city'];
     let restUrl = 'http://api.openweathermap.org/data/2.5/weather?APPID='+WEATHER_API_KEY+'&q='+city;
 
     request.get(restUrl, (err, response, body) => {
@@ -486,6 +490,11 @@ app.post('/ai', (req, res) => {
       }
     })
   }
+} catch (err) {
+    return res.status(400).json({
+        status: "error",
+        error: err
+    });
 });
 
 app.listen(REST_PORT, () => {
